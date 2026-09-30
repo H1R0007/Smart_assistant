@@ -1,0 +1,137 @@
+listener:
+  model_path: D:/AI_Models/vosk-model-small-ru-0.22
+  wake_word: Пятница
+  alternative_words:
+  - Михаил
+  - женщина
+recognizer:
+  language: ru
+  timeout: 5
+  phrase_limit: 10
+  use_whisper: true
+  model_size: medium
+speaker:
+  voice: ru-RU-SvetlanaNeural
+  rate: +5%
+  volume: +0%
+  cache: true
+llm:
+  provider: ollama
+  ollama:
+    model: gemma3:4b
+    base_url: http://localhost:11434
+  openai:
+    model: gpt-4o-mini
+    api_key: ${OPENAI_API_KEY}
+  system_prompt: 'Ты — голосовой ассистент Пятница. ПРАВИЛА: - Отвечай КРАТКО: 1-2
+    предложения. - По-русски. - БЕЗ markdown, списков, звёздочек. - НЕ извиняйся.
+    - Будь прямым и полезным.
+
+    '
+  max_tokens: 100
+  max_history: 7
+assistant:
+  follow_up_seconds: 4
+folders:
+  projects: C:/Projects
+apps:
+  блокнот: notepad.exe
+  калькулятор: calc.exe
+  браузер: chrome
+  хром: chrome
+  проводник: explorer.exe
+  терминал: wt.exe
+  консоль: cmd.exe
+  код: code
+  vs code: code
+  телеграм: telegram
+  дискорд: discord
+  стим: steam
+process_names:
+  calc.exe: CalculatorApp.exe
+  chrome: chrome.exe
+  code: Code.exe
+  wt.exe: WindowsTerminal.exe
+  telegram: Telegram.exe
+weather:
+  city: Moscow
+logging:
+  level: INFO
+  file: assistant.log
+app:
+  hide_console: false
+  show_notifications: true
+integrations:
+  telegram:
+    bot_token: ${TELEGRAM_BOT_TOKEN}
+    default_chat_id: ${TELEGRAM_CHAT_ID}
+  vscode:
+    projects_dir: C:/Projects
+    code_cmd: code
+macros:
+  morning:
+    name: Утренний ритуал
+    keywords:
+    - доброе утро
+    - утренний ритуал
+    - проснись
+    greeting: Доброе утро! Запускаю утренний ритуал.
+    farewell: Всё готово. Хорошего дня!
+    steps:
+    - action: open_app
+      target: telegram
+    - action: open_app
+      target: chrome
+    - action: open_url
+      target: https://news.ycombinator.com
+    - action: volume
+      value: '30'
+    - action: say
+      target: Сегодня {date}. Удачного дня!
+  evening:
+    name: Вечерний режим
+    keywords:
+    - вечерний режим
+    - вечерний
+    - спокойной ночи
+    greeting: Переключаю в вечерний режим.
+    farewell: Приятного вечера!
+    steps:
+    - action: brightness
+      value: '40'
+    - action: volume
+      value: '15'
+    - action: open_url
+      target: https://youtube.com
+    - action: say
+      target: Яркость и громкость уменьшены. Приятного просмотра.
+  focus:
+    name: Режим фокуса
+    keywords:
+    - режим фокуса
+    - фокус
+    - сфокусируйся
+    greeting: Включаю режим фокуса.
+    farewell: Фокус включён. Удачи!
+    steps:
+    - action: volume
+      value: '10'
+    - action: brightness
+      value: '70'
+    - action: open_app
+      target: code
+      delay: 2.0
+  test_gui:
+    name: Тест
+    keywords:
+    - Тестируем интерфейс
+    steps:
+    - action: say
+      target: Привет! Это тестирование интерфейса!
+    - action: open_app
+      target: vs code
+    _gui_positions:
+    - - 80.0
+      - 40.0
+    - - 345.0
+      - 164.0
